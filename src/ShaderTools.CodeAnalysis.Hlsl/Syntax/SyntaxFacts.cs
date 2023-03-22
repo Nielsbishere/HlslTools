@@ -151,6 +151,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
                     return "case";
                 case SyntaxKind.ClassKeyword:
                     return "class";
+                case SyntaxKind.EnumKeyword:
+                    return "enum";
                 case SyntaxKind.ConstantBufferKeyword:
                     return "ConstantBuffer";
                 case SyntaxKind.ConstKeyword:
@@ -1173,6 +1175,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
                 case SyntaxKind.CBufferKeyword:
                 case SyntaxKind.CentroidKeyword:
                 case SyntaxKind.ClassKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.ColumnMajorKeyword:
                 case SyntaxKind.CompileKeyword:
                 case SyntaxKind.CompileShaderKeyword:
@@ -1719,6 +1722,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
                     return SyntaxKind.CentroidKeyword;
                 case "class":
                     return SyntaxKind.ClassKeyword;
+                case "enum":
+                    return SyntaxKind.EnumKeyword;
                 case "column_major":
                     return SyntaxKind.ColumnMajorKeyword;
                 case "compile":

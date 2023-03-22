@@ -21,6 +21,14 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             return ParseDeclarationStatement();
         }
 
+        private SyntaxNode ParseEnumValue() {
+			return null;
+			//var name = NextToken();
+			//var equals = NextToken();
+			//var init = ParseVariableInitializer();
+			//return new EnumValueSyntax(name, new EqualsValueClauseSyntax(equals, init));
+        }
+
         private StructTypeSyntax ParseStructType(SyntaxKind syntaxKind)
         {
             var @struct = Match(syntaxKind);
@@ -55,9 +63,43 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             var closeBrace = Match(SyntaxKind.CloseBraceToken);
 
             return new StructTypeSyntax(@struct, name, baseList, openBrace, members, closeBrace);
-        }
+		}
 
-        private InterfaceTypeSyntax ParseInterfaceType()
+		private EnumSyntax ParseEnum() {
+
+			var @enum = Match(SyntaxKind.EnumKeyword);
+
+			bool isClass = NextTokenIf(SyntaxKind.ClassKeyword) != null;
+
+			var name = NextTokenIf(SyntaxKind.IdentifierToken);
+
+			BaseListSyntax baseList = null;
+			if (Current.Kind == SyntaxKind.ColonToken)
+				baseList = ParseBaseList();
+
+			var openBrace = Match(SyntaxKind.OpenBraceToken);
+
+			var values = new List<SyntaxNode>();
+			while (Current.Kind != SyntaxKind.CloseBraceToken) {
+				if (IsPossibleEnumValue()) {
+					values.Add(ParseEnumValue());
+				}
+				else {
+					var action = SkipBadTokens(
+						p => !p.IsPossibleEnumValue(),
+						p => p.IsTerminator(),
+						SyntaxKind.CloseBraceToken);
+					if (action == PostSkipAction.Abort)
+						break;
+				}
+			}
+
+			var closeBrace = Match(SyntaxKind.CloseBraceToken);
+
+			return new EnumSyntax(@enum, isClass, name, baseList, openBrace, values, closeBrace);
+		}
+
+		private InterfaceTypeSyntax ParseInterfaceType()
         {
             var @interface = Match(SyntaxKind.InterfaceKeyword);
             var name = Match(SyntaxKind.IdentifierToken);
@@ -200,6 +242,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             {
                 case SyntaxKind.ClassKeyword:
                 case SyntaxKind.StructKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.TypedefKeyword:
                     return true;

@@ -435,6 +435,12 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
                 lastTokenOfType = unused.CloseBraceToken;
                 result = ScanTypeFlags.MustBeType;
             }
+            else if (Current.Kind == SyntaxKind.EnumKeyword)
+            {
+                var unused = ParseEnum();
+                lastTokenOfType = unused.CloseBraceToken;
+                result = ScanTypeFlags.MustBeType;
+            }
             else if (Current.Kind == SyntaxKind.InterfaceKeyword)
             {
                 var unused = ParseInterfaceType();
@@ -492,6 +498,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
                     return ParseStructType(SyntaxKind.StructKeyword);
                 case SyntaxKind.ClassKeyword:
                     return ParseStructType(SyntaxKind.ClassKeyword);
+                case SyntaxKind.EnumKeyword:
+                    return ParseEnum();
                 case SyntaxKind.InterfaceKeyword:
                     return ParseInterfaceType();
                 default:

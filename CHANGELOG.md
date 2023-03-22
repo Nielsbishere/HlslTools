@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.301
+
+**2023-03-22**
+
+- [x] Add support for enums [#156](https://github.com/tgjones/HlslTools/issues/156)
+
 ## 1.1.300
 
 **2019-11-21**

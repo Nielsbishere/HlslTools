@@ -190,6 +190,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             {
                 case SyntaxKind.CBufferKeyword:
                 case SyntaxKind.ClassKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.NamespaceKeyword:
                 case SyntaxKind.StructKeyword:
@@ -227,6 +228,29 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
         private bool IsPossibleClassMember()
         {
             return IsPossibleFunctionDeclaration() || IsPossibleDeclarationStatement();
+        }
+
+        private bool IsPossibleEnumValue()
+        {
+			var resetPoint = GetResetPoint();
+
+			try {
+
+				//MyEnum_x = ...,
+
+				if (Current.Kind != SyntaxKind.IdentifierToken)
+					return false;
+
+				NextToken();
+
+				if (Current.Kind != SyntaxKind.EqualsToken)
+					return false;
+
+				return IsPossibleExpression();
+			}
+			finally {
+				Reset(ref resetPoint);
+			}
         }
 
         private bool IsPossibleStatement()

@@ -69,9 +69,9 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
                 ParseTypeAliases(variables);
                 var semi = Match(SyntaxKind.SemiToken);
                 return new TypedefStatementSyntax(typedefKeyword, mods, type, new SeparatedSyntaxList<TypeAliasSyntax>(variables), semi);
-            }
+			}
 
-            if (type is TypeDefinitionSyntax && (Current.Kind == SyntaxKind.SemiToken || Current.Kind == SyntaxKind.EndOfFileToken))
+			if (type is TypeDefinitionSyntax && (Current.Kind == SyntaxKind.SemiToken || Current.Kind == SyntaxKind.EndOfFileToken))
             {
                 var semi = Match(SyntaxKind.SemiToken);
                 return new TypeDeclarationStatementSyntax(mods, (TypeDefinitionSyntax) type, semi);
@@ -594,6 +594,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             {
                 case SyntaxKind.ClassKeyword:
                 case SyntaxKind.StructKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.TypedefKeyword:
                     return true;
