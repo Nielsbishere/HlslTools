@@ -104,11 +104,13 @@ namespace ShaderTools.CodeAnalysis.NavigateTo
                     return NavigateToItemKind.Method;
                 case SymbolKind.Namespace:
                     return NavigateToItemKind.Module;
-                case SymbolKind.ConstantBuffer:
                 case SymbolKind.Struct:
+                case SymbolKind.ConstantBuffer:
                 case SymbolKind.Technique:
                     return NavigateToItemKind.Structure;
-                case SymbolKind.Array:
+                case SymbolKind.Enum:
+					return NavigateToItemKind.Enum;
+				case SymbolKind.Array:
                     return NavigateToItemKind.OtherSymbol;
                 default:
                     return Contract.FailWithReturn<string>("Unknown declaration kind " + symbolKind);

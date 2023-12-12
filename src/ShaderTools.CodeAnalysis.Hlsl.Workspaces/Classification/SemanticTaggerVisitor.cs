@@ -54,6 +54,15 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Classification
             base.VisitStructType(node);
         }
 
+        public override void VisitEnumType(EnumTypeSyntax node)
+        {
+            var symbol = _semanticModel.GetDeclaredSymbol(node);
+            if (symbol != null)
+                CreateTag(node.Name, HlslClassificationTypeNames.StructIdentifier);
+
+            base.VisitEnumType(node);
+        }
+
         public override void VisitConstantBuffer(ConstantBufferSyntax node)
         {
             CreateTag(node.Name, HlslClassificationTypeNames.ConstantBufferIdentifier);
@@ -65,7 +74,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Classification
         {
             var symbol = _semanticModel.GetDeclaredSymbol(node);
             if (symbol != null)
-                CreateTag(node.Name.GetUnqualifiedName().Name, symbol.Parent != null && (symbol.Parent.Kind == SymbolKind.Class || symbol.Parent.Kind == SymbolKind.Struct)
+                CreateTag(node.Name.GetUnqualifiedName().Name, symbol.Parent != null && (symbol.Parent.Kind == SymbolKind.Class || symbol.Parent.Kind == SymbolKind.Struct || symbol.Parent.Kind == SymbolKind.Enum)
                     ? HlslClassificationTypeNames.MethodIdentifier
                     : HlslClassificationTypeNames.FunctionIdentifier);
 
@@ -76,7 +85,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Classification
         {
             var symbol = _semanticModel.GetDeclaredSymbol(node);
             if (symbol != null)
-                CreateTag(node.Name.GetUnqualifiedName().Name, symbol.Parent != null && (symbol.Parent.Kind == SymbolKind.Class || symbol.Parent.Kind == SymbolKind.Struct)
+                CreateTag(node.Name.GetUnqualifiedName().Name, symbol.Parent != null && (symbol.Parent.Kind == SymbolKind.Class || symbol.Parent.Kind == SymbolKind.Struct || symbol.Parent.Kind == SymbolKind.Enum)
                     ? HlslClassificationTypeNames.MethodIdentifier
                     : HlslClassificationTypeNames.FunctionIdentifier);
 
@@ -219,6 +228,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Classification
                     return HlslClassificationTypeNames.ClassIdentifier;
                 case SymbolKind.Struct:
                     return HlslClassificationTypeNames.StructIdentifier;
+                case SymbolKind.Enum:
+                    return HlslClassificationTypeNames.EnumIdentifier;
                 case SymbolKind.Interface:
                     return HlslClassificationTypeNames.InterfaceIdentifier;
                 case SymbolKind.TypeAlias:

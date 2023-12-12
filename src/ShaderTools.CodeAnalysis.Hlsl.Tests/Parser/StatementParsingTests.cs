@@ -1138,6 +1138,151 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Tests.Parser
         }
 
         [Fact]
+        public void TestEnumDeclarationStatement()
+        {
+            var text = "enum E { Value };";
+            var statement = ParseStatement(text);
+
+            Assert.NotNull(statement);
+            Assert.Equal(SyntaxKind.TypeDeclarationStatement, statement.Kind);
+            Assert.Equal(text, statement.ToString());
+            Assert.Equal(0, statement.GetDiagnostics().Count());
+
+            var typeDeclarationStatement = (TypeDeclarationStatementSyntax)statement;
+            Assert.Equal(SyntaxKind.EnumType, typeDeclarationStatement.Type.Kind);
+
+            var cd = (EnumTypeSyntax)typeDeclarationStatement.Type;
+            Assert.NotNull(cd.EnumKeyword);
+            Assert.Null(cd.ClassKeyword);
+            Assert.Equal("E", cd.Name.Text);
+			Assert.Null(cd.BaseType);
+			Assert.Equal(SyntaxKind.EnumKeyword, cd.EnumKeyword.Kind);
+            Assert.NotNull(cd.OpenBraceToken);
+            Assert.Equal(1, cd.Members.Count);
+            Assert.Equal("Value", cd.Members[0].Declaration.ToString());
+            Assert.NotNull(cd.CloseBraceToken);
+
+            Assert.NotNull(typeDeclarationStatement.SemicolonToken);
+        }
+
+        [Fact]
+        public void TestEnumDeclarationStatementAssignment()
+        {
+            var text = "enum E { Value = 123 };";
+            var statement = ParseStatement(text);
+
+            Assert.NotNull(statement);
+            Assert.Equal(SyntaxKind.TypeDeclarationStatement, statement.Kind);
+            Assert.Equal(text, statement.ToString());
+            Assert.Equal(0, statement.GetDiagnostics().Count());
+
+            var typeDeclarationStatement = (TypeDeclarationStatementSyntax)statement;
+            Assert.Equal(SyntaxKind.EnumType, typeDeclarationStatement.Type.Kind);
+
+            var cd = (EnumTypeSyntax)typeDeclarationStatement.Type;
+            Assert.NotNull(cd.EnumKeyword);
+            Assert.Null(cd.ClassKeyword);
+            Assert.Equal("E", cd.Name.Text);
+			Assert.Null(cd.BaseType);
+			Assert.Equal(SyntaxKind.EnumKeyword, cd.EnumKeyword.Kind);
+            Assert.NotNull(cd.OpenBraceToken);
+            Assert.Equal(1, cd.Members.Count);
+            Assert.Equal("Value = 123", cd.Members[0].Declaration.ToString());
+            Assert.NotNull(cd.CloseBraceToken);
+
+            Assert.NotNull(typeDeclarationStatement.SemicolonToken);
+        }
+
+        [Fact]
+        public void TestEnumClassDeclarationStatement()
+        {
+            var text = "enum class E { Value0 };";
+            var statement = ParseStatement(text);
+
+            Assert.NotNull(statement);
+            Assert.Equal(SyntaxKind.TypeDeclarationStatement, statement.Kind);
+			Assert.Equal(text, statement.ToString());
+            Assert.Equal(0, statement.GetDiagnostics().Count());
+
+            var typeDeclarationStatement = (TypeDeclarationStatementSyntax)statement;
+            Assert.Equal(SyntaxKind.EnumType, typeDeclarationStatement.Type.Kind);
+
+            var cd = (EnumTypeSyntax)typeDeclarationStatement.Type;
+            Assert.NotNull(cd.EnumKeyword);
+			Assert.NotNull(cd.ClassKeyword);
+			Assert.Equal("E", cd.Name.Text);
+			Assert.Null(cd.BaseType);
+			Assert.Equal(SyntaxKind.EnumKeyword, cd.EnumKeyword.Kind);
+			Assert.Equal(SyntaxKind.ClassKeyword, cd.ClassKeyword.Kind);
+			Assert.NotNull(cd.OpenBraceToken);
+            Assert.Equal(1, cd.Members.Count);
+            Assert.Equal("Value0", cd.Members[0].Declaration.ToString());
+            Assert.NotNull(cd.CloseBraceToken);
+
+            Assert.NotNull(typeDeclarationStatement.SemicolonToken);
+        }
+
+        [Fact]
+        public void TestEnumDeclarationsStatement()
+        {
+            var text = "enum E { Value0, Value1 };";
+            var statement = ParseStatement(text);
+
+            Assert.NotNull(statement);
+            Assert.Equal(SyntaxKind.TypeDeclarationStatement, statement.Kind);
+			Assert.Equal(text, statement.ToString());
+            Assert.Equal(0, statement.GetDiagnostics().Count());
+
+            var typeDeclarationStatement = (TypeDeclarationStatementSyntax)statement;
+            Assert.Equal(SyntaxKind.EnumType, typeDeclarationStatement.Type.Kind);
+
+            var cd = (EnumTypeSyntax)typeDeclarationStatement.Type;
+            Assert.NotNull(cd.EnumKeyword);
+			Assert.Null(cd.ClassKeyword);
+			Assert.Equal("E", cd.Name.Text);
+			Assert.Null(cd.BaseType);
+			Assert.Equal(SyntaxKind.EnumKeyword, cd.EnumKeyword.Kind);
+			Assert.NotNull(cd.OpenBraceToken);
+            Assert.Equal(2, cd.Members.Count);
+            Assert.Equal("Value0", cd.Members[0].Declaration.ToString());
+            Assert.Equal("Value1", cd.Members[1].Declaration.ToString());
+            Assert.NotNull(cd.CloseBraceToken);
+
+            Assert.NotNull(typeDeclarationStatement.SemicolonToken);
+        }
+
+        [Fact]
+        public void TestEnumClassTypeDeclarationStatement()
+        {
+            var text = "enum class E : uint { Value };";
+            var statement = ParseStatement(text);
+
+            Assert.NotNull(statement);
+            Assert.Equal(SyntaxKind.TypeDeclarationStatement, statement.Kind);
+            Assert.Equal(text, statement.ToString());
+            Assert.Equal(0, statement.GetDiagnostics().Count());
+
+            var typeDeclarationStatement = (TypeDeclarationStatementSyntax)statement;
+            Assert.Equal(SyntaxKind.EnumType, typeDeclarationStatement.Type.Kind);
+
+            var cd = (EnumTypeSyntax)typeDeclarationStatement.Type;
+            Assert.NotNull(cd.EnumKeyword);
+            Assert.NotNull(cd.ClassKeyword);
+            Assert.Equal("E", cd.Name.Text);
+			Assert.NotNull(cd.BaseType);
+			Assert.NotNull(cd.ColonToken);
+			Assert.Equal("uint", cd.BaseType.ToString());
+			Assert.Equal(SyntaxKind.EnumKeyword, cd.EnumKeyword.Kind);
+			Assert.Equal(SyntaxKind.ClassKeyword, cd.ClassKeyword.Kind);
+			Assert.NotNull(cd.OpenBraceToken);
+            Assert.Equal(1, cd.Members.Count);
+            Assert.Equal("Value", cd.Members[0].Declaration.ToString());
+            Assert.NotNull(cd.CloseBraceToken);
+
+            Assert.NotNull(typeDeclarationStatement.SemicolonToken);
+        }
+
+        [Fact]
         public void TestTypedefStatement()
         {
             var text = "typedef float2 Point, Vector;";

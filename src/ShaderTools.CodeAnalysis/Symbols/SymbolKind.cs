@@ -5,6 +5,7 @@
         Array,
         Namespace,
         Struct,
+        Enum,
         Class,
         Interface,
         ConstantBuffer,

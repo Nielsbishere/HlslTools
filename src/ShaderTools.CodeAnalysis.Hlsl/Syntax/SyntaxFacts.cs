@@ -243,6 +243,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
                     return "string";
                 case SyntaxKind.StructKeyword:
                     return "struct";
+                case SyntaxKind.EnumKeyword:
+                    return "enum";
                 case SyntaxKind.SwitchKeyword:
                     return "switch";
                 case SyntaxKind.TrueKeyword:
@@ -1617,6 +1619,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
                 case SyntaxKind.StaticKeyword:
                 case SyntaxKind.StringKeyword:
                 case SyntaxKind.StructKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.StructuredBufferKeyword:
                 case SyntaxKind.SwitchKeyword:
                 case SyntaxKind.TBufferKeyword:
@@ -2579,6 +2582,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
                     return SyntaxKind.StringKeyword;
                 case "struct":
                     return SyntaxKind.StructKeyword;
+                case "enum":
+                    return SyntaxKind.EnumKeyword;
                 case "StructuredBuffer":
                     return SyntaxKind.StructuredBufferKeyword;
                 case "switch":

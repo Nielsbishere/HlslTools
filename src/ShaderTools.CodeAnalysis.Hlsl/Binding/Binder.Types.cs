@@ -32,6 +32,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Binding
                         // Inline struct.
                         return BindStructDeclaration((StructTypeSyntax) syntax, parent);
                     }
+				case SyntaxKind.EnumType:
+					return BindEnumDeclaration((EnumTypeSyntax) syntax, parent);
                 case SyntaxKind.IdentifierName:
                     {
                         var identifierName = (IdentifierNameSyntax) syntax;

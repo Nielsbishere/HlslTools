@@ -143,6 +143,8 @@ namespace ShaderTools.LanguageServer.Handlers
                     return CompletionItemKind.Variable;
                 case Glyph.Structure:
                     return CompletionItemKind.Struct;
+                case Glyph.Enumeration:
+                    return CompletionItemKind.Enum;
                 case Glyph.Typedef:
                     return CompletionItemKind.Variable;
                 case Glyph.TypeParameter:

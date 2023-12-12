@@ -9,6 +9,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Binding.BoundNodes
         Name,
         TypeDeclaration,
         StructType,
+        EnumType,
         InterfaceType,
         IntrinsicMatrixType,
         IntrinsicGenericMatrixType,

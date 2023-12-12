@@ -1135,6 +1135,27 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Formatting
             FormatCloseBraceToken(node.CloseBraceToken);
         }
 
+        public override void VisitEnumType(EnumTypeSyntax node)
+        {
+            FormatToken(node.EnumKeyword, LeadingFormattingOperation.EnsureLeadingNewline, TrailingFormattingOperation.EnsureTrailingWhitespace);
+
+            FormatToken(node.Name);
+
+            if (node.BaseType != null)
+                Visit(node.BaseType);
+
+            FormatOpenBraceToken(node.OpenBraceToken, _options.NewLines.OpenBracePositionForTypes);
+
+            Indent();
+
+            foreach (var member in node.Members)
+                Visit(member);
+
+            Dedent();
+
+            FormatCloseBraceToken(node.CloseBraceToken);
+        }
+
         public override void VisitSwitchSection(SwitchSectionSyntax node)
         {
             if (_options.Indentation.IndentCaseLabels)

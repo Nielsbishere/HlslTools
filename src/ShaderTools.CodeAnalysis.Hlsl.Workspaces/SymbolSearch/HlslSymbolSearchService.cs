@@ -65,6 +65,14 @@ namespace ShaderTools.CodeAnalysis.Hlsl.SymbolSearch
                         yield return SymbolSpan.CreateDefinition(symbol, expression.Name.SourceRange, expression.Name.FileSpan);
                     break;
                 }
+                case SyntaxKind.EnumType:
+                {
+                    var expression = (EnumTypeSyntax) node;
+                    var symbol = semanticModel.GetDeclaredSymbol(expression);
+                    if (symbol != null && expression.Name != null)
+                        yield return SymbolSpan.CreateDefinition(symbol, expression.Name.SourceRange, expression.Name.FileSpan);
+                    break;
+                }
                 case SyntaxKind.InterfaceType:
                 {
                     var expression = (InterfaceTypeSyntax) node;

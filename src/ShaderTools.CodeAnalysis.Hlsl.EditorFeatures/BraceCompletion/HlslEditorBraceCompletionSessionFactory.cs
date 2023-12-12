@@ -75,6 +75,7 @@ namespace ShaderTools.CodeAnalysis.Editor.Hlsl.BraceCompletion
                         {
                             case "class":
                             case "struct":
+                            case "enum":
                             case "interface":
                             case "cbuffer":
                                 return true;

@@ -21,6 +21,20 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             return ParseDeclarationStatement();
         }
 
+        private VariableDeclarationStatementSyntax ParseEnumMember() {
+
+			var variables = new List<SyntaxNodeBase>();
+			var mods = new List<SyntaxToken>();
+			var attributes = new List<AttributeDeclarationSyntaxBase>();
+
+			variables.Add(ParseVariableDeclarator(null, true));
+
+            var semi = NextTokenIf(SyntaxKind.CommaToken);
+
+			var variableDeclaration = new VariableDeclarationSyntax(mods, null, new SeparatedSyntaxList<VariableDeclaratorSyntax>(variables));
+            return new VariableDeclarationStatementSyntax(attributes, variableDeclaration, semi);
+        }
+
         private StructTypeSyntax ParseStructType(SyntaxKind syntaxKind)
         {
             var @struct = Match(syntaxKind);
@@ -55,6 +69,66 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             var closeBrace = Match(SyntaxKind.CloseBraceToken);
 
             return new StructTypeSyntax(@struct, name, baseList, openBrace, members, closeBrace);
+        }
+
+        private EnumTypeSyntax ParseEnumType(SyntaxKind syntaxKind)
+        {
+            var @enum = Match(syntaxKind);
+
+			var classToken = NextTokenIf(SyntaxKind.ClassKeyword);
+
+			var name = Match(SyntaxKind.IdentifierToken);
+
+			SyntaxToken colon = NextTokenIf(SyntaxKind.ColonToken);
+			SyntaxToken baseType = null;
+            if (colon != null) {
+
+				baseType = NextToken();
+
+				switch(baseType.Kind) {
+
+					case SyntaxKind.UintKeyword:
+					case SyntaxKind.Uint16_tKeyword:
+					case SyntaxKind.Uint64_tKeyword:
+
+					case SyntaxKind.Min16IntKeyword:
+					case SyntaxKind.Min12IntKeyword:
+					case SyntaxKind.Min16UintKeyword:
+
+					case SyntaxKind.IntKeyword:
+					case SyntaxKind.Int16_tKeyword:
+					case SyntaxKind.Int64_tKeyword:
+						break;
+
+					default:
+						baseType = Match(SyntaxKind.IntKeyword);
+						break;
+				}
+			}
+
+			IdentifierNameSyntax baseTypeName = baseType != null ? new IdentifierNameSyntax(baseType) : null;
+			var openBrace = Match(SyntaxKind.OpenBraceToken);
+
+            var members = new List<VariableDeclarationStatementSyntax>();
+            while (Current.Kind != SyntaxKind.CloseBraceToken)
+            {
+				if (IsPossibleEnumMember()) {
+					members.Add(ParseEnumMember());
+                }
+                else
+                {
+                    var action = SkipBadTokens(
+                        p => !p.IsPossibleEnumMember(),
+                        p => p.IsTerminator(),
+                        SyntaxKind.CloseBraceToken);
+                    if (action == PostSkipAction.Abort)
+                        break;
+                }
+            }
+
+            var closeBrace = Match(SyntaxKind.CloseBraceToken);
+
+            return new EnumTypeSyntax(@enum, classToken, name, colon, baseTypeName, openBrace, members, closeBrace);
         }
 
         private InterfaceTypeSyntax ParseInterfaceType()
@@ -200,6 +274,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             {
                 case SyntaxKind.ClassKeyword:
                 case SyntaxKind.StructKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.TypedefKeyword:
                     return true;

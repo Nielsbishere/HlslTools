@@ -198,7 +198,7 @@ namespace ShaderTools.CodeAnalysis.Editor.Hlsl.NavigationBar
                     var memberItems = new List<NavigationBarItem>();
                     foreach (var member in type.GetMembers())
                     {
-                        if (member.Kind == SymbolKind.Struct || member.Kind == SymbolKind.Interface)
+                        if (member.Kind == SymbolKind.Struct || member.Kind == SymbolKind.Interface || member.Kind == SymbolKind.Enum)
                         {
                             continue;
                         }

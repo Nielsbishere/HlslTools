@@ -40,6 +40,9 @@ namespace ShaderTools.CodeAnalysis.NavigateTo
                         case SymbolKind.Struct:
                             return "struct " + _declaredSymbol.Parent.GetFullyQualifiedName();
 
+                        case SymbolKind.Enum:
+                            return "enum " + _declaredSymbol.Parent.GetFullyQualifiedName();
+
                         case SymbolKind.ConstantBuffer:
                             return "constant buffer " + _declaredSymbol.Parent.GetFullyQualifiedName();
 

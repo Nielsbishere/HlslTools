@@ -492,6 +492,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
                     return ParseStructType(SyntaxKind.StructKeyword);
                 case SyntaxKind.ClassKeyword:
                     return ParseStructType(SyntaxKind.ClassKeyword);
+                case SyntaxKind.EnumKeyword:
+                    return ParseEnumType(SyntaxKind.EnumKeyword);
                 case SyntaxKind.InterfaceKeyword:
                     return ParseInterfaceType();
                 default:

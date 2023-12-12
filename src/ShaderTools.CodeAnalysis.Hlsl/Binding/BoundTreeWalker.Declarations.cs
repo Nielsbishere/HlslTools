@@ -131,6 +131,9 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Binding
                 case BoundNodeKind.StructType:
                     VisitStructType((BoundStructType) node);
                     break;
+                case BoundNodeKind.EnumType:
+                    VisitEnumType((BoundEnumType) node);
+                    break;
                 case BoundNodeKind.InterfaceType:
                     VisitInterfaceType((BoundInterfaceType) node);
                     break;
@@ -153,6 +156,19 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Binding
                         break;
                     case BoundNodeKind.FunctionDefinition:
                         VisitFunctionDefinition((BoundFunctionDefinition)member);
+                        break;
+                }
+            }
+        }
+
+        protected virtual void VisitEnumType(BoundEnumType node)
+        {
+            foreach (var member in node.Members)
+            {
+                switch (member.Kind)
+                {
+                    case BoundNodeKind.MultipleVariableDeclarations:
+                        VisitMultipleVariableDeclarations((BoundMultipleVariableDeclarations)member);
                         break;
                 }
             }

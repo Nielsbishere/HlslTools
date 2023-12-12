@@ -33,6 +33,7 @@ namespace ShaderTools.CodeAnalysis
         public const string Space = nameof(Space);
         public const string StringLiteral = nameof(StringLiteral);
         public const string Struct = nameof(Struct);
+        public const string Enum = nameof(Enum);
         public const string Technique = nameof(Technique);
         public const string Text = nameof(Text);
 

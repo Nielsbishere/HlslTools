@@ -53,6 +53,9 @@ namespace ShaderTools.CodeAnalysis.Hlsl
                 case TextTags.Struct:
                     return HlslClassificationTypeNames.StructIdentifier;
 
+                case TextTags.Enum:
+                    return HlslClassificationTypeNames.EnumIdentifier;
+
                 case TextTags.Interface:
                     return HlslClassificationTypeNames.InterfaceIdentifier;
 

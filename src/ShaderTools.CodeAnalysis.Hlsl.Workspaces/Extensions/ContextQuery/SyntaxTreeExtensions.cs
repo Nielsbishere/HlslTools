@@ -32,7 +32,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Extensions.ContextQuery
             {
                 if (token.Parent.IsKind(SyntaxKind.ClassType, SyntaxKind.StructType))
                     return true;
-                if (token.Parent.IsKind(SyntaxKind.Namespace))
+                if (token.Parent.IsKind(SyntaxKind.Namespace, SyntaxKind.EnumType))
                     return true;
             }
 

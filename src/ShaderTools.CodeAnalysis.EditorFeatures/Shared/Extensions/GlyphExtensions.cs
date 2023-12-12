@@ -64,6 +64,9 @@ namespace ShaderTools.CodeAnalysis.Editor.Shared.Extensions
                 case Glyph.Structure:
                     return StandardGlyphGroup.GlyphGroupStruct;
 
+                case Glyph.Enumeration:
+                    return StandardGlyphGroup.GlyphGroupEnum;
+
                 case Glyph.Typedef:
                     return StandardGlyphGroup.GlyphGroupTypedef;
 
@@ -157,6 +160,9 @@ namespace ShaderTools.CodeAnalysis.Editor.Shared.Extensions
 
                 case Glyph.Structure:
                     return KnownImageIds.ValueTypePublic;
+
+                case Glyph.Enumeration:
+                    return KnownImageIds.EnumerationPublic;
 
                 case Glyph.Typedef:
                     return KnownImageIds.TypeDefinitionPublic;

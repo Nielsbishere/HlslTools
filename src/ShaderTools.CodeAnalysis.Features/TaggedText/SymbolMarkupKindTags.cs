@@ -32,6 +32,8 @@ namespace ShaderTools.CodeAnalysis
                     return TextTags.Class;
                 case SymbolMarkupKind.StructName:
                     return TextTags.Struct;
+                case SymbolMarkupKind.EnumName:
+                    return TextTags.Enum;
                 case SymbolMarkupKind.InterfaceName:
                     return TextTags.Interface;
                 case SymbolMarkupKind.ConstantBufferName:

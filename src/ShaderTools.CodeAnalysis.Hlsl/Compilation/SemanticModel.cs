@@ -100,6 +100,12 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Compilation
             return result?.StructSymbol;
         }
 
+        public EnumSymbol GetDeclaredSymbol(EnumTypeSyntax syntax)
+        {
+            var result = _bindingResult.GetBoundNode(syntax) as BoundEnumType;
+            return result?.EnumSymbol;
+        }
+
         public VariableSymbol GetDeclaredSymbol(VariableDeclaratorSyntax syntax)
         {
             var result = _bindingResult.GetBoundNode(syntax) as BoundVariableDeclaration;

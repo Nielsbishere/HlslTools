@@ -1903,6 +1903,59 @@
     </Field>
   </Node>
 
+  <Node Name="EnumTypeSyntax" Base="TypeDefinitionSyntax">
+    <TypeComment>
+      <summary></summary>
+    </TypeComment>
+    <Field Name="EnumKeyword" Type="SyntaxToken">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+      <Kind Name="EnumKeyword"/>
+    </Field>
+    <Field Name="ClassKeyword" Type="SyntaxToken">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+      <Kind Name="ClassKeyword"/>
+    </Field>
+    <Field Name="Name" Type="SyntaxToken">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+      <Getter Name="NameToken" Override="true"/>
+    </Field>
+		<Field Name="ColonToken" Type="SyntaxToken">
+			<PropertyComment>
+				<summary></summary>
+			</PropertyComment>
+			<Kind Name="SyntaxToken"/>
+		</Field>
+		<Field Name="BaseType" Type="IdentifierNameSyntax">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+      <Kind Name="BaseType"/>
+    </Field>
+    <Field Name="OpenBraceToken" Type="SyntaxToken">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+      <Kind Name="OpenBraceToken"/>
+    </Field>
+    <Field Name="Members" Type="List&lt;VariableDeclarationStatementSyntax&gt;">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+    </Field>
+    <Field Name="CloseBraceToken" Type="SyntaxToken">
+      <PropertyComment>
+        <summary></summary>
+      </PropertyComment>
+      <Kind Name="CloseBraceToken"/>
+    </Field>
+  </Node>
+
   <Node Name="SwitchSectionSyntax" Base="SyntaxNode">
     <TypeComment>
       <summary></summary>

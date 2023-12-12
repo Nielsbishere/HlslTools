@@ -370,6 +370,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
         StaticKeyword,
         StringKeyword,
         StructKeyword,
+        EnumKeyword,
         StructuredBufferKeyword,
         SwitchKeyword,
         TBufferKeyword,
@@ -587,8 +588,9 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Syntax
         ArrayRankSpecifier,
         StructType,
         ModifiedType,
+		EnumType,
 
-        IdentifierDeclarationName,
+		IdentifierDeclarationName,
         QualifiedDeclarationName,
 
         // HLSL-specific

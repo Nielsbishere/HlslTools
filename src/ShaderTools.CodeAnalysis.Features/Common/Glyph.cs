@@ -40,6 +40,8 @@ namespace ShaderTools.CodeAnalysis
 
         Structure,
 
+		Enumeration,
+
         Typedef,
 
         TypeParameter,

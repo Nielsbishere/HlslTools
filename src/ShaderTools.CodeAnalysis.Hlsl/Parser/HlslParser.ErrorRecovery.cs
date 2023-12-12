@@ -193,6 +193,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.NamespaceKeyword:
                 case SyntaxKind.StructKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.TBufferKeyword:
                 case SyntaxKind.TechniqueKeyword:
                 case SyntaxKind.Technique10Keyword:

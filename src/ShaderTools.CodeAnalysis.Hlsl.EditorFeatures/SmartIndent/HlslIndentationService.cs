@@ -31,6 +31,7 @@ namespace ShaderTools.CodeAnalysis.Editor.Hlsl.SmartIndent
                 case SyntaxKind.ConstantBufferDeclaration:
                 case SyntaxKind.ClassType:
                 case SyntaxKind.StructType:
+                case SyntaxKind.EnumType:
                 case SyntaxKind.InterfaceType:
                 case SyntaxKind.ArrayInitializerExpression:
                     return true;

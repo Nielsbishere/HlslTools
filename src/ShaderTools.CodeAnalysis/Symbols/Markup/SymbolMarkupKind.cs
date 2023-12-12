@@ -14,6 +14,7 @@
         MethodName,
         ClassName,
         StructName,
+        EnumName,
         InterfaceName,
         ConstantBufferName,
         IntrinsicTypeName,

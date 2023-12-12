@@ -34,6 +34,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Symbols.Markup
                 case SymbolKind.IntrinsicObjectType:
                 case SymbolKind.Class:
                 case SymbolKind.Struct:
+                case SymbolKind.Enum:
                 case SymbolKind.Interface:
                     markup.AppendTypeDeclaration((TypeSymbol) symbol, format);
                     break;
@@ -238,6 +239,10 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Symbols.Markup
                         markup.AppendKeyword("struct");
                         markup.AppendSpace();
                         break;
+                    case SymbolKind.Enum:
+                        markup.AppendKeyword("enum");
+                        markup.AppendSpace();
+                        break;
                 }
 
                 if (symbol.Parent != null)
@@ -259,6 +264,9 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Symbols.Markup
                     break;
                 case SymbolKind.Struct:
                     markup.AppendName(SymbolMarkupKind.StructName, symbol.Name);
+                    break;
+                case SymbolKind.Enum:
+                    markup.AppendName(SymbolMarkupKind.EnumName, symbol.Name);
                     break;
                 case SymbolKind.IntrinsicMatrixType:
                 case SymbolKind.IntrinsicObjectType:
@@ -351,6 +359,10 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Symbols.Markup
                     break;
                 case SymbolKind.Struct:
                     markup.AppendName(SymbolMarkupKind.StructName, symbol.Name);
+                    markup.AppendPunctuation("::");
+                    break;
+                case SymbolKind.Enum:
+                    markup.AppendName(SymbolMarkupKind.EnumName, symbol.Name);
                     markup.AppendPunctuation("::");
                     break;
                 case SymbolKind.Class:

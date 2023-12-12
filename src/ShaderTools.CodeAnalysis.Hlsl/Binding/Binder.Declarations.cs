@@ -426,6 +426,74 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Binding
             return new BoundStructType(structSymbol, members.ToImmutableArray());
         }
 
+        private BoundEnumType BindEnumDeclaration(EnumTypeSyntax declaration, Symbol parent)
+        {
+			IdentifierNameSyntax scalarType = declaration.BaseType;
+			ScalarType baseType = ScalarType.Int;
+
+			if (scalarType != null) {
+
+				switch (scalarType.Kind) {
+
+					case SyntaxKind.Int16_tKeyword:
+					case SyntaxKind.Int64_tKeyword:
+					case SyntaxKind.IntKeyword:
+
+					case SyntaxKind.Uint16_tKeyword:
+					case SyntaxKind.Uint64_tKeyword:
+					case SyntaxKind.UintKeyword:
+
+					case SyntaxKind.Min16IntKeyword:
+					case SyntaxKind.Min12IntKeyword:
+					case SyntaxKind.Min16UintKeyword:
+						break;
+
+					default:
+						throw new ArgumentException("Invalid type provided to enum declaration. Only int and uint supported.");
+				}
+			}
+
+			var enumBinder = new Binder(_sharedBinderState, this);
+            var enumSymbol = new EnumSymbol(declaration, parent, baseType, enumBinder);
+			AddSymbol(enumSymbol, declaration.Name?.SourceRange ?? declaration.SourceRange);
+
+            var members = new List<BoundNode>();
+
+            // Bit of a hack - need to add member symbols to structSymbol as we go, otherwise (for example)
+            // static methods defined inline in a struct won't be able to see struct members.
+            var alreadyAddedMemberSymbols = new List<Symbol>();
+            Action addMemberSymbols = () =>
+            {
+                var newMemberSymbols = enumBinder.LocalSymbols.Values
+                    .SelectMany(x => x)
+                    .Except(alreadyAddedMemberSymbols)
+                    .ToList();
+                foreach (var member in newMemberSymbols)
+                {
+                    enumSymbol.AddMember(member);
+                    alreadyAddedMemberSymbols.Add(member);
+                }
+            };
+
+			//a = ...,
+			//b
+
+            foreach (var memberSyntax in declaration.Members)
+            {
+				switch (memberSyntax.Kind) {
+
+					//TODO: It seems to crash here?
+
+					case SyntaxKind.VariableDeclarationStatement:
+						members.Add(enumBinder.Bind((VariableDeclarationStatementSyntax)memberSyntax, x => enumBinder.BindField(x, enumSymbol)));
+						addMemberSymbols();
+						break;
+				}
+			}
+
+            return new BoundEnumType(enumSymbol, members.ToImmutableArray());
+        }
+
         private BoundMultipleVariableDeclarations BindField(VariableDeclarationStatementSyntax variableDeclarationStatementSyntax, TypeSymbol parentType)
         {
             var declaration = variableDeclarationStatementSyntax.Declaration;
@@ -460,6 +528,8 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Binding
                 case SyntaxKind.ClassType:
                 case SyntaxKind.StructType:
                     return BindStructDeclaration((StructTypeSyntax) syntax, parent);
+				case SyntaxKind.EnumType:
+					return BindEnumDeclaration((EnumTypeSyntax) syntax, parent);
                 case SyntaxKind.InterfaceType:
                     return BindInterfaceDeclaration((InterfaceTypeSyntax) syntax, parent);
                 default:

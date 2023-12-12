@@ -594,6 +594,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             {
                 case SyntaxKind.ClassKeyword:
                 case SyntaxKind.StructKeyword:
+                case SyntaxKind.EnumKeyword:
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.TypedefKeyword:
                     return true;
@@ -623,6 +624,23 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Parser
             {
                 Reset(ref resetPoint);
             }
+        }
+
+        private bool IsPossibleEnumMember()
+        {
+            var tk = Current.Kind;
+
+			//enum class Test : uint {
+			//	EnumValue1 = x,		//Identifier Equals
+			//	EnumValue0,			//Identifier Comma
+			//	EnumValue			//Identifier CloseBrace
+			//}
+
+			return tk == SyntaxKind.IdentifierToken && (
+				Lookahead.Kind == SyntaxKind.EqualsToken || 
+				Lookahead.Kind == SyntaxKind.CommaToken || 
+				Lookahead.Kind == SyntaxKind.CloseBraceToken
+			);
         }
 
         private BlockSyntax ParseBlock(List<AttributeDeclarationSyntaxBase> attributes)

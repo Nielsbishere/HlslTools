@@ -23,6 +23,8 @@ namespace ShaderTools.CodeAnalysis.Shared.Extensions
                     return Glyph.Namespace;
                 case SymbolKind.Struct:
                     return Glyph.Structure;
+                case SymbolKind.Enum:
+                    return Glyph.Enumeration;
                 case SymbolKind.Class:
                     return Glyph.Class;
                 case SymbolKind.Interface:

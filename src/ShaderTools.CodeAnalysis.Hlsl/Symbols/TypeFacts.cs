@@ -42,6 +42,12 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Symbols
             if (left.Equals(right))
                 return true;
 
+			if (left.Kind == SymbolKind.IntrinsicScalarType && right.Kind == SymbolKind.Enum)
+				return true;
+
+			if (right.Kind == SymbolKind.IntrinsicScalarType && left.Kind == SymbolKind.Enum)
+				return true;
+
             if (left.IsIntrinsicNumericType() && right.Kind == SymbolKind.Struct)
                 return true;
 
@@ -165,6 +171,7 @@ namespace ShaderTools.CodeAnalysis.Hlsl.Symbols
         {
             return type.Kind == SymbolKind.Struct
                 || type.Kind == SymbolKind.Class
+                || type.Kind == SymbolKind.Enum
                 || type.Kind == SymbolKind.Interface;
         }
 

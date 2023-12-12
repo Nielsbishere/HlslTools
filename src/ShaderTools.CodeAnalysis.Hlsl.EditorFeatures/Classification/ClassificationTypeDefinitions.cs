@@ -289,6 +289,21 @@ namespace ShaderTools.CodeAnalysis.Editor.Hlsl.Classification
             }
         }
 
+        [Export(typeof(EditorFormatDefinition))]
+        [Name(HlslClassificationTypeNames.EnumIdentifier)]
+        [ClassificationType(ClassificationTypeNames = HlslClassificationTypeNames.EnumIdentifier)]
+        [UserVisible(true)]
+        [Order(After = PredefinedClassificationTypeNames.String)]
+        public sealed class EnumIdentifierFormat : ClassificationFormatDefinition
+        {
+            [ImportingConstructor]
+            public EnumIdentifierFormat(IClassificationColorManager colorManager)
+            {
+                DisplayName = "HLSL Enum Identifier";
+                ForegroundColor = colorManager.GetDefaultColor(HlslClassificationTypeNames.EnumIdentifier);
+            }
+        }
+
         [Export]
         [Name(HlslClassificationTypeNames.InterfaceIdentifier)]
         [BaseDefinition(PredefinedClassificationTypeNames.FormalLanguage)]

@@ -128,6 +128,9 @@ namespace ShaderTools.LanguageServer
                 case NavigateToItemKind.Structure:
                     return SymbolKind.Struct;
 
+                case NavigateToItemKind.Enum:
+                    return SymbolKind.Enum;
+
                 case NavigateToItemKind.Module:
                     return SymbolKind.Namespace;
 
